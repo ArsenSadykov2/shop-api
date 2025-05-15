@@ -24,7 +24,7 @@ const fileDb = {
         return data.find(p => p.id === param_id);
     },
     async getAllProducts() {
-        return data;
+        return data.reverse();
     },
     async addNewProduct(productToAdd: ProductWithoutId) {
         const newProduct = {id: crypto.randomUUID(), ... productToAdd};
