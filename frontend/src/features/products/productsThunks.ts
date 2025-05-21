@@ -10,6 +10,14 @@ export const fetchAllProducts = createAsyncThunk<Product[], void>(
     }
 );
 
+export const fetchProductById = createAsyncThunk<Product, string>(
+    'products/fetchProductById',
+    async(product_id) => {
+        const response = await axiosApi.get<Product>('/products/' + product_id);
+        return response.data || null;
+    }
+);
+
 export const createProduct = createAsyncThunk<void, ProductMutation>(
     'products/createProduct',
     async (productToAdd, {dispatch}) => {

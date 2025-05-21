@@ -1,0 +1,60 @@
+import {NavLink, useParams} from "react-router-dom";
+import {useEffect} from "react";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
+import {selectOneProducts, selectProductsLoading} from "./productsSlice.ts";
+import {Card, CardActionArea, CardContent, CardMedia, Container, IconButton, Typography} from "@mui/material";
+import Spinner from "../../components/UI/Spinner/Spinner.tsx";
+import {fetchProductById} from "./productsThunks.ts";
+import notFoundPic from '../../assets/images/notFoundPic.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+const FullProduct = () => {
+    const dispatch = useAppDispatch();
+    const product = useAppSelector(selectOneProducts);
+    const fetchLoading = useAppSelector(selectProductsLoading);
+    const {id} = useParams();
+    useEffect(() => {
+        if(id) {
+            dispatch(fetchProductById(id));
+        }
+    }, [id, dispatch]);
+    return (
+        <Container maxWidth="md">
+            {fetchLoading ? <Spinner/> : null}
+
+            {!fetchLoading && product ?
+                <Card sx={{ width: "50%", margin: '0 auto'}}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            height="200"
+                            image={notFoundPic}
+                            alt={product.title}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {product.title}
+                            </Typography>
+                            <Typography gutterBottom variant="h6" component="div">
+                                {product.description}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                <strong>Price: {product.price} KGS</strong>
+                            </Typography>
+                        </CardContent>
+                        <IconButton component={NavLink} to="/">
+                            <ArrowBackIcon sx={{fontSize: '15px' }}/>
+                            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '10px' }}>
+                                Go Back Home
+                            </Typography>
+                        </IconButton>
+                    </CardActionArea>
+                </Card>
+                :
+                <Typography variant="h6">Not Found Product</Typography>
+                }
+        </Container>
+    );
+};
+
+export default FullProduct;

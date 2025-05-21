@@ -4,6 +4,7 @@ import Products from "./features/products/Products.tsx";
 import {Route, Routes } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import NewProduct from "./features/products/NewProduct.tsx";
+import FullProduct from "./features/products/FullProduct.tsx";
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Products/>}/>
               <Route path="/products" element={<Products/>}/>
+              <Route path="/products/:id" element={<FullProduct/>}/>
               <Route path="/products/new" element={<NewProduct/>}/>
               <Route path="*" element={<Typography variant="h4">Not Found Page</Typography>}/>
             </Routes>
