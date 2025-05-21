@@ -1,6 +1,7 @@
 import express from "express";
 import fileDb from "../fileDb";
 import {ProductWithoutId} from "../types";
+import {imagesUpload} from "../multer";
 
 const productRouter = express.Router();
 
@@ -14,11 +15,12 @@ productRouter.get('/:id',async (req, res) => {
     res.send(product);
 });
 
-productRouter.post('/',async (req, res) => {
+productRouter.post('/', imagesUpload.single('image'), async (req, res) => {
     const newProduct: ProductWithoutId = {
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
+        image: req.file ? req.file.filename : null,
     };
 
     const savedProduct = await fileDb.addNewProduct(newProduct);
