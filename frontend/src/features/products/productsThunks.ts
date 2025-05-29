@@ -14,7 +14,7 @@ export const fetchProductById = createAsyncThunk<Product, string>(
     'products/fetchProductById',
     async(product_id) => {
         const response = await axiosApi.get<Product>('/products/' + product_id);
-        return response.data || null;
+        return response.data;
     }
 );
 
@@ -25,9 +25,15 @@ export const createProduct = createAsyncThunk<void, ProductMutation>(
 
         formData.append('title', productToAdd.title);
         formData.append('description', productToAdd.description);
-        formData.append('price', String(productToAdd.price));
 
-        if(productToAdd.image) {
+
+        if (productToAdd.ingredients && productToAdd.ingredients.length > 0) {
+            formData.append('ingredients', JSON.stringify(productToAdd.ingredients));
+        } else {
+            formData.append('ingredients', JSON.stringify([]));
+        }
+
+        if (productToAdd.image) {
             formData.append('image', productToAdd.image);
         }
 

@@ -1,9 +1,15 @@
+export interface Ingredient {
+    name: string;
+    amount: string;
+}
+
 export interface Product {
     id: string;
     title: string;
-    price: number;
     description: string;
+    ingredients: Ingredient[];
     image: string | null;
+    price: number;
 }
 
-export type ProductWithoutId = Omit<Product, 'id'>
+export interface ProductWithoutId extends Omit<Product, 'id'> {}

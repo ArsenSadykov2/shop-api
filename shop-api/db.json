@@ -1,1 +1,27 @@
-[{"id":"9ca1e9ac-8a65-445a-93b3-18b9b39b9d5d","title":"qweqwe","description":"qweqwe","price":"123","image":"images/02a6bd46-6115-480c-8629-cc8435371598.png"},{"id":"a49fc28e-fd3a-4d11-995b-fc7509a7dc90","title":"qwee","description":"qweqw","price":"1231","image":null},{"id":"07b56894-526e-4fc5-85e7-de226d61f6ba","title":"Hello","description":"HELLO","price":"123","image":"images/ebd5e071-ea1d-44a2-a95e-a2728ff43ae3.png"}]
+[
+  {
+    "id": "d982a315-df1a-470b-8526-bda29aba21f5",
+    "title": "Long Iceland",
+    "description": "Hello",
+    "ingredients": [
+      {
+        "name": "Whiskey",
+        "amount": "1123"
+      },
+      {
+        "name": "Apple Juice",
+        "amount": "123"
+      },
+      {
+        "name": "Orange Juice",
+        "amount": "123"
+      },
+      {
+        "name": "Juice",
+        "amount": "123"
+      }
+    ],
+    "image": "images/fea277b7-bb14-44d3-90b6-9bcb731cdfbe.png",
+    "price": 0
+  }
+]

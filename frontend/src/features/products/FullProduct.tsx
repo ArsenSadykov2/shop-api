@@ -14,6 +14,7 @@ const FullProduct = () => {
     const product = useAppSelector(selectOneProducts);
     const fetchLoading = useAppSelector(selectProductsLoading);
     const {id} = useParams();
+
     useEffect(() => {
         if(id) {
             dispatch(fetchProductById(id));
@@ -25,36 +26,46 @@ const FullProduct = () => {
             {fetchLoading ? <Spinner/> : null}
 
             {!fetchLoading && product ?
-                <Card sx={{ width: "50%", margin: '0 auto'}}>
+                <Card sx={{ width: "100%", maxWidth: 600, margin: '0 auto'}}>
                     <CardActionArea>
                         <CardMedia
                             component="img"
-                            height="200"
+                            height="400"
                             image={product?.image ? apiUrl + '/' + product.image : notFoundPic}
                             alt={product.title}
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
+                            <Typography gutterBottom variant="h4" component="div">
                                 {product.title}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {product.description}
+                            <Typography variant="body1" paragraph>
+                                Recipe: {product.description}
                             </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                <strong>Price: {product.price} KGS</strong>
+
+                            <Typography variant="h6" gutterBottom>
+                                Ingredients:
                             </Typography>
+                            <ul>
+                                {product.ingredients.map((ingredient, index) => (
+                                    <li key={index}>
+                                        <Typography variant="body1">
+                                            {ingredient.name} - {ingredient.amount}
+                                        </Typography>
+                                    </li>
+                                ))}
+                            </ul>
                         </CardContent>
-                        <IconButton component={NavLink} to="/">
-                            <ArrowBackIcon sx={{fontSize: '15px' }}/>
-                            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '10px' }}>
-                                Go Back Home
+                        <IconButton component={NavLink} to="/" sx={{mb: 2, ml: 2}}>
+                            <ArrowBackIcon sx={{mr: 1}}/>
+                            <Typography variant="body2">
+                                Back to products
                             </Typography>
                         </IconButton>
                     </CardActionArea>
                 </Card>
                 :
-                <Typography variant="h6">Not Found Product</Typography>
-                }
+                <Typography variant="h6">Product not found</Typography>
+            }
         </Container>
     );
 };

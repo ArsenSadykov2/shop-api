@@ -13,7 +13,7 @@ const NewProduct = () => {
     const onCreateNewProduct = async (product: ProductMutation) => {
         try{
             await dispatch(createProduct(product)).unwrap();
-            toast.success("Product was successfully created")
+            toast.success("Cocktail was successfully created")
             navigate('/');
         }catch (e){
            console.error(e)
@@ -23,7 +23,7 @@ const NewProduct = () => {
     return (
         <>
            <Typography variant="h4" style={{textAlign: "center", marginBottom: "20px"}}>
-               New Product
+               New Cocktail
            </Typography>
             <ProductForm onSubmitProduct={onCreateNewProduct}/>
         </>

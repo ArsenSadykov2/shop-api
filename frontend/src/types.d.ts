@@ -1,15 +1,15 @@
 export interface Product {
     id: string;
     title: string;
-    price: number;
     description: string;
-    image?: string | null;
+    ingredients: {name: string; amount: string}[];
+    image: string | null;
 }
 
 export interface ProductMutation {
     title: string;
     description: string
-    price: number;
+    ingredients: string[{ingredient: string, amount: number}];
     image: File | null;
 }
 

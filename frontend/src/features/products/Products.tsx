@@ -23,12 +23,12 @@ const Products = () => {
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid>
                     <Typography variant="h4">
-                        Products
+                        Cocktails
                     </Typography>
                 </Grid>
                 <Grid>
                     <Button color="primary" component={Link} to="/products/new">
-                        Add Product
+                        Add New Cocktails
                     </Button>
                 </Grid>
             </Grid>
@@ -42,7 +42,7 @@ const Products = () => {
                                 <ProductItem
                                     key={product.id}
                                     title={product.title}
-                                    price={product.price}
+                                    ingredients={product.ingredients}
                                     id={product.id}
                                     image = {product.image || undefined}
                                 />
