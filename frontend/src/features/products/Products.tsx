@@ -43,7 +43,9 @@ const Products = () => {
                                     key={product.id}
                                     title={product.title}
                                     price={product.price}
-                                    id={product.id}/>
+                                    id={product.id}
+                                    image = {product.image || undefined}
+                                />
                             ))}
                         </Grid>
                     }

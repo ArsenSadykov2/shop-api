@@ -7,6 +7,7 @@ import Spinner from "../../components/UI/Spinner/Spinner.tsx";
 import {fetchProductById} from "./productsThunks.ts";
 import notFoundPic from '../../assets/images/notFoundPic.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {apiUrl} from "../../../globalConstants.ts";
 
 const FullProduct = () => {
     const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ const FullProduct = () => {
             dispatch(fetchProductById(id));
         }
     }, [id, dispatch]);
+
     return (
         <Container maxWidth="md">
             {fetchLoading ? <Spinner/> : null}
@@ -28,7 +30,7 @@ const FullProduct = () => {
                         <CardMedia
                             component="img"
                             height="200"
-                            image={notFoundPic}
+                            image={product?.image ? apiUrl + '/' + product.image : notFoundPic}
                             alt={product.title}
                         />
                         <CardContent>

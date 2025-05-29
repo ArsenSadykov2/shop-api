@@ -54,6 +54,7 @@ const ProductForm: React.FC<Props> = ({onSubmitProduct}) => {
                <Grid size={{sm: 12, md: 6, lg:6}}>
                    <TextField
                        style={{width: '100%'}}
+                       InputProps={{inputProps: {min: 1}}}
                        type={'number'}
                        id="price"
                        label="Price"

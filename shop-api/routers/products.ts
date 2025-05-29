@@ -20,7 +20,7 @@ productRouter.post('/', imagesUpload.single('image'), async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        image: req.file ? req.file.filename : null,
+        image: req.file ? 'images/' + req.file.filename : null,
     };
 
     const savedProduct = await fileDb.addNewProduct(newProduct);
