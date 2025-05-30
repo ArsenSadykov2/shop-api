@@ -7,14 +7,17 @@ import {
     CardContent,
     Typography,
     Box,
-    Divider
+    Divider, MenuItem
 } from "@mui/material";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import type { ProductMutation } from "../../../../types";
 import FileInput from "../../../../components/UI/FileInput/FileInput.tsx";
 import { styled } from "@mui/material/styles";
+import {useAppDispatch, useAppSelector} from "../../../../app/hooks.ts";
+import {selectCategories, selectCategoriesLoading} from "../../../categories/categoriesSlice.ts";
+import {fetchAllCategories} from "../../../categories/categoriesThunks.ts";
 
 interface Props {
     onSubmitProduct: (product: ProductMutation) => void;
@@ -63,7 +66,11 @@ const StyledTextField = styled(TextField)(() => ({
 }));
 
 const ProductForm: React.FC<Props> = ({ onSubmitProduct }) => {
+    const dispatch = useAppDispatch();
+    const categories = useAppSelector(selectCategories);
+    const categoriesLoading = useAppSelector(selectCategoriesLoading);
     const [form, setForm] = useState<ProductMutation>({
+        category: "",
         title: "",
         description: "",
         ingredients: [{ name: "", amount: "" }],
@@ -74,6 +81,10 @@ const ProductForm: React.FC<Props> = ({ onSubmitProduct }) => {
         title: false,
         description: false,
     });
+
+    useEffect(() => {
+        dispatch(fetchAllCategories());
+    }, [dispatch]);
 
     const validateForm = () => {
         const newErrors = {
@@ -148,6 +159,23 @@ const ProductForm: React.FC<Props> = ({ onSubmitProduct }) => {
 
                     <form onSubmit={onSubmit}>
                         <Grid container spacing={3}>
+                            <Grid size={{xs: 8}}>
+                                <StyledTextField
+                                    fullWidth
+                                    select
+                                    disabled={categoriesLoading}
+                                    id="category"
+                                    label="Category"
+                                    name="category"
+                                    value={form.category}
+                                    onChange={onInputChange}
+                                >
+                                    <MenuItem value='' disabled>Select Category</MenuItem>
+                                    {categories.map(category => (
+                                        <MenuItem value={category._id} key={category._id}>{category.title}</MenuItem>
+                                    ))}
+                                </StyledTextField>/
+                            </Grid>
                             <Grid size={{xs: 8}}>
                                 <StyledTextField
                                     fullWidth

@@ -10,7 +10,14 @@ const productRouter = express.Router();
 
 productRouter.get('/', async (req, res, next) => {
     try{
-        const products = await Product.find();
+        const category_id = req.query.category as string;
+        const filter: {category?: string} = {};
+
+        if(category_id){
+            filter.category = category_id;
+        }
+
+        const products = await Product.find(filter).populate('category', 'title',);
         res.send(products);
     } catch (e){
         next(e);
@@ -37,6 +44,7 @@ productRouter.get('/:id', async (req, res, next) => {
 productRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
     try {
         const newProduct: ProductWithoutId = {
+            category: req.body.category,
             title: req.body.title,
             // user: req.body.user,
             description: req.body.description,
@@ -47,7 +55,7 @@ productRouter.post('/', imagesUpload.single('image'), async (req, res, next) => 
         await product.save();
         res.send(product);
     } catch (e) {
-        if(e instanceof Error.ValidationError) {
+        if(e instanceof Error.ValidationError || e instanceof Error.CastError) {
             res.status(400).send({message: e});
             return;
         }

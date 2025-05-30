@@ -1,12 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, {Types} from "mongoose";
+import {Error} from "mongoose";
+import Category from "./Category";
 
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     required: true,
-    // },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: "Category",
+        required: true,
+        validate: {
+            validator: async (value: string) => {
+                const category = await Category.findById(value);
+                return !!category;
+            },
+            message: "Category not found",
+        },
+    },
     title: {
         type: String,
         required: true,

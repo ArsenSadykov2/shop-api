@@ -1,10 +1,20 @@
 export interface Product {
     _id: string;
+    category: {
+        _id: string;
+        title: string;
+    }
     // user: User;
     title: string;
     description: string;
     ingredients: {name: string; amount: string}[];
     image: string | null;
+}
+
+export interface Category {
+    _id: string;
+    title: string;
+    description: string;
 }
 
 export interface User {
@@ -18,6 +28,7 @@ export interface User {
 }
 
 export interface ProductMutation {
+    category: string;
     title: string;
     description: string
     ingredients: {name: string; amount: string}[];
