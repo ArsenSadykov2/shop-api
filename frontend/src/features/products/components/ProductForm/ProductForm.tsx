@@ -182,7 +182,7 @@ const ProductForm: React.FC<Props> = ({ onSubmitProduct }) => {
                                                     onChange={(e) =>
                                                         handleIngredientChange(index, "name", e.target.value)
                                                     }
-                                                    sx={{ flex: 2 }}
+                                                    sx={{ flex: '1 1 60%' }}
                                                 />
                                                 <StyledTextField
                                                     fullWidth
@@ -194,7 +194,7 @@ const ProductForm: React.FC<Props> = ({ onSubmitProduct }) => {
                                                     onChange={(e) =>
                                                         handleIngredientChange(index, "amount", e.target.value)
                                                     }
-                                                    sx={{ flex: 1 }}
+                                                    sx={{ flex: '1 1 30%' }}
                                                 />
                                                 {index > 0 && (
                                                     <IconButton

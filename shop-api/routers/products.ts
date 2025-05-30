@@ -1,74 +1,57 @@
 import express from "express";
-import fileDb from "../fileDb";
 import {Ingredient, ProductWithoutId} from "../types";
 import {imagesUpload} from "../multer";
+import mongoDb from "../mongoDb";
+import {ObjectId} from "mongodb";
+import Product from "../models/Product";
+import {Error} from "mongoose";
 
 const productRouter = express.Router();
 
-productRouter.get('/', async (req, res) => {
-    try {
-        const products = await fileDb.getAllProducts();
+productRouter.get('/', async (req, res, next) => {
+    try{
+        const products = await Product.find();
         res.send(products);
-    } catch (e) {
-        console.error('Error fetching products:', e);
-        res.status(500).send({error: 'Internal Server Error'});
+    } catch (e){
+        next(e);
     }
 });
 
-productRouter.get('/:id', async (req, res) => {
-    try {
-        const product = await fileDb.getProductById(req.params.id);
+productRouter.get('/:id', async (req, res, next) => {
+    const id = req.params.id;
 
-        if (!product) {
-            res.status(404).send({error: 'Product not found'});
+    try{
+        const product = await Product.findOne({ _id: id });
+
+        if(product){
+            res.send(product);
             return;
+        } else {
+            res.status(404).send({message: "Product not found"});
         }
-
-        res.send(product);
-    } catch (e) {
-        console.error('Error fetching product:', e);
-        res.status(500).send({error: 'Internal Server Error'});
+    } catch (e){
+        next(e);
     }
 });
 
-productRouter.post('/', imagesUpload.single('image'), async (req, res) => {
+productRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
     try {
-        if (!req.body.title || !req.body.description) {
-            res.status(400).send({error: 'Title and description are required'});
-            return;
-        }
-
-        let ingredients: Ingredient[] = [];
-
-        if (req.body.ingredients) {
-            if (typeof req.body.ingredients === 'string') {
-                try {
-                    ingredients = JSON.parse(req.body.ingredients);
-                } catch (e) {
-                    res.status(400).send({error: 'Invalid ingredients JSON format'});
-                    return;
-                }
-            }
-
-            ingredients = ingredients.map(ingredient => ({
-                name: ingredient.name || '',
-                amount: ingredient.amount || ''
-            }));
-        }
-
         const newProduct: ProductWithoutId = {
             title: req.body.title,
+            // user: req.body.user,
             description: req.body.description,
-            ingredients: ingredients,
+            ingredients: req.body.ingredients,
             image: req.file ? 'images/' + req.file.filename : null,
-            price: parseFloat(req.body.price) || 0,
         };
-
-        const savedProduct = await fileDb.addNewProduct(newProduct);
-        res.status(201).send(savedProduct);
+        const product = new Product(newProduct);
+        await product.save();
+        res.send(product);
     } catch (e) {
-        console.error('Error creating product:', e);
-        res.status(500).send({error: 'Internal Server Error'});
+        if(e instanceof Error.ValidationError) {
+            res.status(400).send({message: e});
+            return;
+        }
+        next(e);
     }
 });
 

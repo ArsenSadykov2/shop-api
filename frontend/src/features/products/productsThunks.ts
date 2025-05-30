@@ -26,17 +26,19 @@ export const createProduct = createAsyncThunk<void, ProductMutation>(
         formData.append('title', productToAdd.title);
         formData.append('description', productToAdd.description);
 
-
-        if (productToAdd.ingredients && productToAdd.ingredients.length > 0) {
-            formData.append('ingredients', JSON.stringify(productToAdd.ingredients));
-        } else {
-            formData.append('ingredients', JSON.stringify([]));
-        }
+        productToAdd.ingredients.forEach((ingredient, index) => {
+            formData.append(`ingredients[${index}][name]`, ingredient.name);
+            formData.append(`ingredients[${index}][amount]`, ingredient.amount);
+        });
 
         if (productToAdd.image) {
             formData.append('image', productToAdd.image);
         }
 
-        await axiosApi.post('/products', formData);
+        await axiosApi.post('/products', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        });
     }
 );

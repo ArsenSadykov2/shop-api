@@ -3,13 +3,23 @@ export interface Ingredient {
     amount: string;
 }
 
-export interface Product {
-    id: string;
-    title: string;
-    description: string;
-    ingredients: Ingredient[];
-    image: string | null;
-    price: number;
+export interface User {
+    _id: string;
+    email: string;
+    displayName: string;
+    avatar: string;
+    password: string;
+    role: string;
+    googleId: string;
 }
 
-export interface ProductWithoutId extends Omit<Product, 'id'> {}
+export interface Product {
+    _id: string;
+    // user: User;
+    title: string;
+    description: string;
+    ingredients: {name: string; amount: string}[];
+    image: string | null;
+}
+
+export interface ProductWithoutId extends Omit<Product, '_id'> {}

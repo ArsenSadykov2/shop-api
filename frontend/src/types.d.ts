@@ -1,15 +1,26 @@
 export interface Product {
-    id: string;
+    _id: string;
+    // user: User;
     title: string;
     description: string;
     ingredients: {name: string; amount: string}[];
     image: string | null;
 }
 
+export interface User {
+    _id: string;
+    email: string;
+    displayName: string;
+    avatar: string;
+    password: string;
+    role: string;
+    googleId: string;
+}
+
 export interface ProductMutation {
     title: string;
     description: string
-    ingredients: string[{ingredient: string, amount: number}];
+    ingredients: {name: string; amount: string}[];
     image: File | null;
 }
 
