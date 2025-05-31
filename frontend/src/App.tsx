@@ -5,6 +5,8 @@ import {Route, Routes } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import NewProduct from "./features/products/NewProduct.tsx";
 import FullProduct from "./features/products/FullProduct.tsx";
+import Register from "./features/users/Register.tsx";
+import Login from "./features/users/Login.tsx";
 
 const App = () => {
 
@@ -19,6 +21,8 @@ const App = () => {
         <Container maxWidth="xl">
             <Routes>
               <Route path="/" element={<Products/>}/>
+              <Route path="/register" element={<Register/>}/>
+                <Route path="/login" element={<Login/>}/>
               <Route path="/:category_id" element={<Products/>}/>
               <Route path="/products/:id" element={<FullProduct/>}/>
               <Route path="/products/new" element={<NewProduct/>}/>
